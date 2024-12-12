@@ -6,7 +6,7 @@ To refresh the board, pull down on the list, at which point it will read the end
 
 ## Endpoint
 
-Use a simple in-memory backend to manage the handling of the information to be presented.
+Use a simple [quizzrr in-memory backend](https://github.com/rosera/quizzrr_leaderboard/blob/main/README.md) to manage the handling of the information to be presented.
 Optionally this can be extended to use a database as a backend depending on requirements.
 
 The Flutter application expects the information to be presented in the following JSON format:
