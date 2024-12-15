@@ -1,55 +1,18 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'dart:core';
-import 'package:http/http.dart' as http;
+import 'model/item_model.dart';
+import 'utility/fetch_data.dart';
 
-Future<List<Item>> fetchItems() async {
-  final response =
-  await http.get(Uri.parse('http://localhost:8080/leaderboard?game=quizzrr'));
-  await http.get(Uri.parse('https://quizzrr-glb-api-519033508888.us-central1.run.app/leaderboard?game=quizzrr'));
-
-  print("Status: ${response.statusCode}");
-
-  if (response.statusCode == 200) {
-    final List<dynamic> jsonList = jsonDecode(response.body);
-    return jsonList.map((item) => Item.fromJson(item)).toList();
-  } else if (response.statusCode == 404){
-    return [];
-  } else {
-    throw Exception('Failed to fetch items');
-  }
-}
-
-class Item {
-  final String game;
-  final String name;
-  final int score;
-
-  const Item({
-    required this.game,
-    required this.name,
-    required this.score,
-  });
-
-  factory Item.fromJson(Map<String, dynamic> json) {
-    return Item(
-      game: json['game'] as String,
-      name: json['name'] as String,
-      score: json['score'] as int,
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class LeaderboardPage extends StatefulWidget {
+  const LeaderboardPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LeaderboardPage> createState() => _LeaderboardPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LeaderboardPageState extends State<LeaderboardPage> {
   late Future<List<Item>> _itemsFuture;
 
   @override
@@ -92,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               final items = snapshot.data!;
               return Column(
                 children: [
-                  const Text("Pull up to refresh",
+                  const Text("Pull down to refresh",
                     style: TextStyle(
                       fontSize: 18.0,
                      color: Colors.blueGrey,
@@ -111,27 +74,42 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "${index+1}.",
-                                    style: const TextStyle(
-                                      fontSize: 22.0,
+                                  SizedBox(
+                                    width: 30,
+                                    child: Text(
+                                      "${index+1}.",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 22.0,
+                                      ),
                                     ),
                                   ),
 
                                   const SizedBox(width:10.0),
 
-                                  Text(
-                                    item.name,
-                                    style: const TextStyle(
-                                      fontSize: 22.0,
+                                  SizedBox(
+                                    width: 250,
+                                    child: Text(
+                                      item.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 22.0,
+                                      ),
                                     ),
                                   ),
 
                                   const Spacer(),
-                                  Text(
-                                    "${item.score}",
-                                    style: const TextStyle(
-                                      fontSize: 22.0,
+                                  SizedBox(
+                                    // width: 0,
+                                    child: Text(
+                                      "${item.score}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 22.0,
+                                      ),
                                     ),
                                   ),
 

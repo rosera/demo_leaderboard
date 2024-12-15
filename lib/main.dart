@@ -1,5 +1,5 @@
 import 'onboarding_page.dart';
-import 'home_page.dart';
+import 'leaderboard_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => CodeEntryPage(title: title),
-        '/homeScreen': (context) => MyHomePage(title: title),
+        '/homeScreen': (context) => LeaderboardPage(title: title),
       },
     );
   }
